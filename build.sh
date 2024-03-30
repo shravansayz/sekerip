@@ -5,7 +5,7 @@
 
 # Define variable 
 device_codename=RMX1901
-rom_name=aosp
+rom_name=afterlife
 build_type=user
 do_cleanremove=no
 
