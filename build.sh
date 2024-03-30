@@ -4,7 +4,7 @@
 #rm -rf .repo
 
 # Define variable 
-device_codename=lime
+device_codename=RMX1901
 rom_name=aosp
 build_type=user
 do_cleanremove=no
@@ -59,12 +59,11 @@ fi
 # Do repo init for rom that we want to build.
 repo init -u "${rom_manifest}" -b "${branch_rom}"  --git-lfs --depth=1 --no-repo-verify
 
-# Remove tree before cloning our manifest.
-rm -rf device vendor kernel packages/resources/devicesettings hardware/xiaomi frameworks/base system/core 
+
 
 # Do remove here before repo sync.
 if [ "$do_cleanremove" = "yes" ]; then
- rm -rf system out prebuilts external hardware packages
+ rm -rf system out prebuilts
 fi
 
 if [ "$do_smallremove" = "yes" ]; then
@@ -72,34 +71,21 @@ if [ "$do_smallremove" = "yes" ]; then
 fi
 
 # Clone our local manifest.
-git clone https://github.com/zaidanprjkt/local_manifest.git --depth 1 -b $branch_tree .repo/local_manifests
+git clone https://github.com/shravansayz/local_manifest.git --depth 1 -b $branch_tree .repo/local_manifests
 
 # Let's sync!
 /opt/crave/resync.sh
 
-# Use different vendor power, vibrator and clone hardware ximi
-rm -rf vendor/qcom/opensource/power
-git clone -b arrow-13.1 --depth=1 https://github.com/ArrowOS/android_vendor_qcom_opensource_power vendor/qcom/opensource/power
-rm -rf vendor/qcom/opensource/vibrator
-git clone -b arrow-13.1 --depth=1 https://github.com/ArrowOS/android_vendor_qcom_opensource_vibrator vendor/qcom/opensource/vibrator
-rm -rf hardware/xiaomi
-git clone -b thirteen --depth=1 https://github.com/PixelExperience/hardware_xiaomi hardware/xiaomi
-
-# Clone LOS devicesettings for parts.
-rm -rf packages/resources/devicesettings
-git clone -b "${version_android}" --depth=1 https://github.com/LineageOS/android_packages_resources_devicesettings packages/resources/devicesettings
-
-# Additional some source tree things
 
 # Do lunch
 . build/envsetup.sh
 lunch "${rom_name}"_"${device_codename}"-user
 
 # Define build username and hostname things, also kernel
-export BUILD_USERNAME=zaidan
+export BUILD_USERNAME=ssk
 export BUILD_HOSTNAME=crave       
 export SKIP_ABI_CHECKS=true
-export KBUILD_BUILD_USER=zaidan    
+export KBUILD_BUILD_USER=ssk    
 export KBUILD_BUILD_HOST=authority
 export BUILD_BROKEN_MISSING_REQUIRED_MODULES=true
 
