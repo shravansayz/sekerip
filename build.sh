@@ -28,7 +28,7 @@ fi
 if [ "$rom_name" = "afterlife" ]; then
   rom_manifest="https://github.com/AfterLifePrjkt13/android_manifest"
   branch_rom="LTS"
-  branch_tree="afterlife"
+  branch_tree="test"
   build_command="m afterlife"
   version_android="lineage-20.0"
 fi
